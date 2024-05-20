@@ -1,126 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <title>ziad!</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta charset="utf-8">
-    <link rel="stylesheet" type="text/css" href="index_files/core.css">
-    <link rel="stylesheet" type="text/css" href="index_files/styles.css">
-    <link rel="stylesheet" type="text/css" href="index_files/custom.css">
-    <!-- inject:css -->
-    <!-- endinject -->
-    <link rel="icon" type="image/png" href="index_files/logo.png">
-    <script src="index_files/jquery.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Planner Map</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <!-- Add Google Maps JavaScript API script -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"></script>
 </head>
-<body class="smooth-transition" style="animation-duration: 500ms; opacity: 1;">
-    <div class="container-fluid">
-        <header>
-            <div class="container">
-                <div class="col-md-3">
-                    <a class="brand smooth" href="index.html">
-                        <img alt="Your Alternative text" src="index_files/logo.png" width="50%">
-                    </a>
-                </div>
-                <div class="col-md-6 text-center">
-                    <div class="nav-trigger">
-                        <div class="bar"></div>
-                        <div class="bar"></div>
-                        <div class="bar"></div>
-                    </div>
-                    <ul class="navigation">
-                        <li><a href="#" class="active">home</a>
-                            <ul class="dropdown">
-                            </ul>
-                        </li>
-                        <li> <a href="" class="smooth">about</a></li>
-                        <li> <a href="contact.html">contact</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </header>
-        <section class="hero text-center">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-6 col-md-offset-3">
-                        <h1>this is ziad.bio</h1>
-                        <p>welcome to my portfolio. <br>stay for a while!</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section class="grid-container">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <a href="#" class="btn btn-default filter-trigger">Filter</a>
-                    </div>
-                    <div class="col-md-12 grid classic" style="position: relative; height: 1307px;">
-                        <a class="item books smooth in-view" href="" style="position: absolute; left: 0px; top: 0px;">
-                            <div class="thumb">
-                                <img alt="Your Alternative text" src="index_files/01.png">
-                            </div>
-                            <div class="caption">
-                                <h4>blehhhh put shit here</h4>
-                                <div class="tag">Tech &amp; Software</div>
-                            </div>
-                        </a>
-                        <a class="item typography smooth in-view" href="" style="position: absolute; left: 600px; top: 0px;">
-                            <div class="thumb">
-                                <img alt="Your Alternative text" src="index_files/02.png">
-                            </div>
-                            <div class="caption">
-                                <h4>my experience with blah blah!</h4>
-                                <div class="tag">Tech &amp; Hardware</div>
-                            </div>
-                        </a>
-                        <!-- More items -->
-                    </div>
-                </div>
-            </div>
-        </section>
-        <footer>
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-3 text-center">
-                        <p>Ziad Taha<br>2024</p>
-                    </div>
-                    <div class="col-md-3 text-center">
-                        <p>Hampton Park<br>Victoria 3976</p>
-                    </div>
-                    <div class="col-md-3 text-center">
-                        <p>z1ad.taha@hotmail.com<br>+61 476 990 206</p>
-                    </div>
-                    <div class="col-md-3 text-center">
-                    </div>
-                </div>
-            </div>
-        </footer>
-        <footer class="bottom">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12 text-center">
-                        Ziad Taha, 2024.
-                    </div>
-                </div>
-            </div>
-        </footer>
-        <div class="filter-container">
-            <div class="container">
-                <div class="inner">
-                    <ul class="filters">
-                        <li> <a href="#" data-filter="item" class="active filter">All</a></li>
-                        <li><a href="#" data-filter="Tech" class="filter">Personal</a></li>
-                        <li><a href="#" data-filter="Tech" the filter">Tech</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+<body>
+    <button id="createPinButton">+</button>
+    <div id="map"></div>
+
+    <!-- Custom Dialogue Box -->
+    <div id="pinDialogue" style="display:none;">
+        <label for="pinContent">Title:</label>
+        <input type="text" id="pinContent"><br>
+        <label for="pinDateTime">Date & Time:</label>
+        <input type="datetime-local" id="pinDateTime"><br>
+        <label for="pinDuration">Duration:</label>
+        <input type="text" id="pinDuration"><br>
+        <label for="pinDescription">Description:</label>
+        <textarea id="pinDescription"></textarea><br>
+        <label for="pinIcon">Icon:</label>
+        <select id="pinIcon">
+            <option value="default">Default</option>
+            <option value="red">Red</option>
+            <option value="blue">Blue</option>
+            <option value="green">Green</option>
+        </select><br>
+        <input type="hidden" id="pinLat">
+        <input type="hidden" id="pinLng">
+        <button id="submitPinButton">Submit</button>
+        <button id="cancelPinButton">Cancel</button>
     </div>
-    <script src="index_files/imagesloaded.pkgd.min.js"></script>
-    <script src="index_files/packery.pkgd.min.js"></script>
-    <script src="index_files/animsition.js"></script>
-    <script src="index_files/functions.js"></script>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
